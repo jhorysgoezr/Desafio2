@@ -3,8 +3,11 @@
 
 class Usuario
 {
+private:
+
 public:
     Usuario();
+    ~Usuario();
 };
 
 #endif // USUARIO_H
