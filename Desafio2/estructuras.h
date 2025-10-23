@@ -2,6 +2,9 @@
 #define ESTRUCTURAS_H
 
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 enum TipoMembresia {ESTANDAR, PREMIUM};
 enum CategoriaPubicidad {CATEGORIA_C, CATEGORIA_B, CATEGORIA_AAA};
