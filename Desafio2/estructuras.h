@@ -8,6 +8,7 @@ using namespace std;
 
 enum TipoMembresia {ESTANDAR, PREMIUM};
 enum CategoriaPubicidad {CATEGORIA_C, CATEGORIA_B, CATEGORIA_AAA};
+enum Genero{POP, JAZZ,MUSICA_CLASICA, ELECTRONICA, GUARACHA, BLUES, VALLENATO,REGGAE};
 
 template<typename T>
 class ListaEnlazada {
