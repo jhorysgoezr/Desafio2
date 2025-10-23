@@ -29,14 +29,31 @@ public:
         return (indice >= 0 && indice< cantidadGeneros) ? generos[indice]:POP;
     }
 
-    void setCodigo(int c) {condigo = c;}
+    void setCodigo(int c) {codigo = c;}
     void setNombre(const string& n) {nombre = n;}
     void setFechaLanzamiento(const string& f){fechaLanzamiento = f;}
     void setDuracion(int d) {duracion = d;}
     void setPortada(const string& p){portada = p;}
 
+    bool agregarGeneros(Genero g);
+    void agregarCancion(int idCancion);
+    bool eliminarCacnion(int idCancion);
+    bool tieneCancion(int idCancion) const;
 
+    int getCantidadCanciones() const;
+    int getCancion(int indice) const;
 
+    bool operator ==(const album& otro) const;
+    bool operator !=(const album& otro) const;
+
+    friend ostream& operator <<(ostream& os, const album& _album){
+        os <<"Album - CCodigo: "<< _album.codigo
+           <<", nombre: " <<_album.nombre
+           <<", fecha: "<< _album.fechaLanzamiento
+           <<", Duracion: " << _album.duracion << " min"
+           <<", Canciones: " << _album.canciones.obtenerTamano();
+        return os;
+    }
 };
 
 #endif // ALBUM_H

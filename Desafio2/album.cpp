@@ -18,3 +18,49 @@ album::album(const album &otro):codigo(otro.codigo), nombre(otro.nombre),fechaLa
         canciones.agregar(*otro.canciones.obtener(i));
     }
 }
+
+bool album::agregarGeneros(Genero g)
+{
+    if(cantidadGeneros < 4){
+        generos[cantidadGeneros] =  g;
+        cantidadGeneros++;
+        return true;
+    }
+    return false;
+}
+
+void album::agregarCancion(int idCancion)
+{
+    canciones.agregar(idCancion);
+}
+
+bool album::eliminarCacnion(int idCancion)
+{
+    return canciones.eliminar(idCancion);
+}
+
+bool album::tieneCancion(int idCancion) const
+{
+    return canciones.buscar(idCancion);
+}
+
+int album::getCantidadCanciones() const
+{
+    return canciones.obtenerTamano();
+}
+
+int album::getCancion(int indice) const
+{
+    int* cancion = canciones.obtener(indice);
+    return cancion ? *cancion : -1;
+}
+
+bool album::operator ==(const album &otro) const
+{
+    return codigo == otro.codigo;
+}
+
+bool album::operator !=(const album &otro) const
+{
+    return !(*this == otro);
+}
