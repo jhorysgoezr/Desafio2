@@ -33,6 +33,30 @@ public:
     void setCiudad(const string& ciu) {ciudad = ciu;}
     void setPais(const string& pa) {pais = pa;}
     void setFechaInscripcion(const string& fecha){fechaInscripcion = fecha;}
+
+    bool esPremium()const;
+    bool esEstandar()const;
+    bool agregarAFavoritos(int idCancion);
+    bool eliminarDeFavoritos(int idCancion);
+    bool tieneEnFavoritos(int idCancion);
+    bool seguirListaFavoritos(const Usuario& otroUsuario);
+
+    bool operator == (const Usuario& otro) const;
+    bool operator !=(const Usuario& otro) const;
+
+    Usuario& operator =(const Usuario& otro);
+
+    friend ostream& operator <<(ostream& os, const Usuario& usuario){
+        os <<"Usuario - Nickname: " <<usuario.nickname
+           <<", tipo: "<<(usuario.tipoMembresia == PREMIUM ? "Premium" : "Estandar")
+           <<", Ciudad: "<<usuario.ciudad
+           <<", Pais: "<<usuario.pais
+           <<", Fecha: "<<usuario.fechaInscripcion;
+        if(usuario.esPremium()){
+            os<<", Favoritos: "<<usuario.Listafavoritos.obtenerTamano();
+        }
+        return os;
+    }
 };
 
 #endif // USUARIO_H
