@@ -38,7 +38,7 @@ bool udeatunes::cargarArtistas(const string &archivo)
         string pais;
 
         if (iss >> codigo >> edad >> pais) {
-            artistas.agregar(Artista(codigo, edad, pais));
+            artistas.agregar(artista(codigo, edad, pais));
             iteracionesTotales++;
         }
     }
@@ -58,7 +58,7 @@ bool udeatunes::cargarAlbumes(const string &archivo)
         string nombre, fecha, portada;
 
         if (iss >> codigo >> nombre >> fecha >> duracion >> portada) {
-            albumes.agregar(Album(codigo, nombre, fecha, duracion, portada));
+            albumes.agregar(album(codigo, nombre, fecha, duracion, portada));
             iteracionesTotales++;
         }
     }
@@ -78,7 +78,7 @@ bool udeatunes::cargarCanciones(const string &archivo)
         string nombre, ruta128, ruta320;
 
         if (iss >> identificador >> nombre >> duracion >> ruta128 >> ruta320) {
-            canciones.agregar(Cancion(identificador, nombre, duracion, ruta128, ruta320));
+            canciones.agregar(cancion(identificador, nombre, duracion, ruta128, ruta320));
             iteracionesTotales++;
         }
     }
@@ -101,7 +101,7 @@ bool udeatunes::cargarMensajesPublicitarios(const string &archivo)
         string categoriaStr = linea.substr(0, pos);
         string contenido = linea.substr(pos + 1);
 
-        CategoriaPublicidad categoria;
+        CategoriaPubicidad categoria;
         if (categoriaStr == "C") categoria = CATEGORIA_C;
         else if (categoriaStr == "B") categoria = CATEGORIA_B;
         else if (categoriaStr == "AAA") categoria = CATEGORIA_AAA;
@@ -203,7 +203,7 @@ bool udeatunes::cancionAnterior()
     if (!ultimaCancion) return false;
 
     for (int i = 0; i < canciones.obtenerTamano(); i++) {
-        Cancion* cancion = canciones.obtener(i);
+        cancion* cancion = canciones.obtener(i);
         if (cancion && cancion->getIdentificador() == *ultimaCancion) {
             cancionActual = cancion;
             historialReproduccion.desencolar();
@@ -258,7 +258,7 @@ bool udeatunes::agregarAFavoritos(int idCancion) {
 
     bool cancionExiste = false;
     for (int i = 0; i < canciones.obtenerTamano(); i++) {
-        Cancion* cancion = canciones.obtener(i);
+        cancion* cancion = canciones.obtener(i);
         if (cancion && cancion->getIdentificador() == idCancion) {
             cancionExiste = true;
             break;
@@ -320,7 +320,7 @@ MensajePublicitario *udeatunes::obtenerMensajePublicitario() {
 
 cancion *udeatunes::buscarCancion(int idCancion) {
     for (int i = 0; i < canciones.obtenerTamano(); i++) {
-        Cancion* cancion = canciones.obtener(i);
+        cancion* cancion = canciones.obtener(i);
         if (cancion && cancion->getIdentificador() == idCancion) {
             iteracionesTotales++;
             return cancion;
@@ -332,7 +332,7 @@ cancion *udeatunes::buscarCancion(int idCancion) {
 
 album *udeatunes::buscarAlbum(int codigoAlbum) {
     for (int i = 0; i < albumes.obtenerTamano(); i++) {
-        Album* album = albumes.obtener(i);
+        album* album = albumes.obtener(i);
         if (album && album->getCodigo() == codigoAlbum) {
             iteracionesTotales++;
             return album;
@@ -344,7 +344,7 @@ album *udeatunes::buscarAlbum(int codigoAlbum) {
 
 artista *udeatunes::buscarArtista(int codigoArtista) {
     for (int i = 0; i < artistas.obtenerTamano(); i++) {
-        Artista* artista = artistas.obtener(i);
+        artista* artista = artistas.obtener(i);
         if (artista && artista->getCodigo() == codigoArtista) {
             iteracionesTotales++;
             return artista;
@@ -367,15 +367,15 @@ int udeatunes::calcularMemoria() const {
 
     memoria += usuarios.obtenerTamano() * sizeof(Usuario);
 
-    memoria += artistas.obtenerTamano() * sizeof(Artista);
+    memoria += artistas.obtenerTamano() * sizeof(artista);
 
-    memoria += albumes.obtenerTamano() * sizeof(Album);
+    memoria += albumes.obtenerTamano() * sizeof(album);
 
-    memoria += canciones.obtenerTamano() * sizeof(Cancion);
+    memoria += canciones.obtenerTamano() * sizeof(cancion);
 
     memoria += mensajesPublicitarios.obtenerTamano() * sizeof(MensajePublicitario);
 
-    memoria += sizeof(UdeATunes);
+    memoria += sizeof(udeatunes);
 
     return memoria;
 }

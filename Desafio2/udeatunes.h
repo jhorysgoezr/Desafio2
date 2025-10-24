@@ -9,6 +9,11 @@
 #include <album.h>
 #include <artista.h>
 #include <estructuras.h>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+using namespace std;
 
 class udeatunes
 {
@@ -34,7 +39,6 @@ private:
     mt19937 gen;
 public:
     udeatunes();
-    ~UdeATunes();
 
     bool cargarUsuarios(const string& archivo);
     bool cargarArtistas(const string& archivo);
@@ -82,4 +86,4 @@ public:
 
 };
 
-#endif // UDEATUNES_H
+#endif

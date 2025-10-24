@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 14.0.2, 2025-10-24T04:23:09. -->
+<!-- Written by QtCreator 14.0.2, 2025-10-24T08:00:18. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -249,10 +249,11 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/lenovo/OneDrive - Universidad de Antioquia/UDEA/Sexto Semestre/Info II/Desafio 2/Desafio2/Desafio2.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/lenovo/OneDrive - Universidad de Antioquia/UDEA/Sexto Semestre/Info II/Desafio 2/Desafio2/Desafio2.pro</value>
-    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">true</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseTerminal">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/lenovo/OneDrive - Universidad de Antioquia/UDEA/Sexto Semestre/Info II/Desafio 2/Desafio2/build/Desktop_Qt_6_5_3_MinGW_64_bit-Debug</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
