@@ -56,4 +56,4 @@ public:
     }
 };
 
-#endif // ALBUM_H
+#endif

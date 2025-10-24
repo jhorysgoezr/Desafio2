@@ -29,7 +29,7 @@ bool Usuario::esEstandar() const
 bool Usuario::agregarAFavoritos(int idCancion)
 {
     if(esPremium()){
-        return Listafavoritos.eliminarCancion(idCancion);
+        return Listafavoritos.agregarCancion(idCancion);
     }
     return false;
 }

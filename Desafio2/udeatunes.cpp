@@ -164,15 +164,18 @@ bool udeatunes::iniciarReproduccionAleatoria()
 
 bool udeatunes::siguienteCancion()
 {
-    if (!usuarioActual || !reproduciendo || cancionesReproducidas >= limiteReproduccion) {
+    if (!usuarioActual || !reproduciendo) {
         return false;
     }
 
     if (modoRepetir && cancionActual) {
         cancionActual->incrementarReproducciones();
-        cancionesReproducidas++;
         iteracionesTotales++;
         return true;
+    }
+
+    if (cancionesReproducidas >= limiteReproduccion) {
+        return false;
     }
 
     uniform_int_distribution<> dis(0, canciones.obtenerTamano() - 1);
@@ -258,8 +261,8 @@ bool udeatunes::agregarAFavoritos(int idCancion) {
 
     bool cancionExiste = false;
     for (int i = 0; i < canciones.obtenerTamano(); i++) {
-        cancion* cancion = canciones.obtener(i);
-        if (cancion && cancion->getIdentificador() == idCancion) {
+        cancion* Cancion = canciones.obtener(i);
+        if (Cancion && Cancion->getIdentificador() == idCancion) {
             cancionExiste = true;
             break;
         }
@@ -379,5 +382,3 @@ int udeatunes::calcularMemoria() const {
 
     return memoria;
 }
-
-

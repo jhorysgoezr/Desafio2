@@ -71,12 +71,11 @@ void mostrarMetricas(udeatunes& sistema) {
     cout << "Memoria consumida: " << sistema.calcularMemoria() << " bytes" << endl;
 }
 
-void simularReproduccion(udeatunes&  sistema) {
+void simularReproduccion(udeatunes& sistema) {
     if (!sistema.estaReproduciendo()) return;
 
     cancion* cancion = sistema.getCancionActual();
     if (!cancion) return;
-
 
     album* album = sistema.buscarAlbum(cancion->getCodigoAlbum());
     artista* artista = sistema.buscarArtista(cancion->getCodigoArtista());
@@ -85,11 +84,13 @@ void simularReproduccion(udeatunes&  sistema) {
     cout << "                    UdeATunes Player" << endl;
     cout << string(60, '=') << endl;
 
-    if (sistema.getUsuarioActual()->esEstandar()) {
+    if (sistema.getUsuarioActual()->esEstandar() &&
+        sistema.getCancionesReproducidas() % 2 == 0) {
         MensajePublicitario* mensaje = sistema.obtenerMensajePublicitario();
         if (mensaje) {
-            cout << "Mensaje publicitario: " << mensaje->getContenido() << endl;
-            cout << "Categoria del mensaje: ";
+            cout << "\n*** PUBLICIDAD ***" << endl;
+            cout << mensaje->getContenido() << endl;
+            cout << "Categoria: ";
             switch (mensaje->getCategoria()) {
             case CATEGORIA_C: cout << "C"; break;
             case CATEGORIA_B: cout << "B"; break;
@@ -100,7 +101,10 @@ void simularReproduccion(udeatunes&  sistema) {
         }
     }
 
-    cout << "Cantante: ";
+    cout << "\nCancion #" << sistema.getCancionesReproducidas() << " de 5" << endl;
+    cout << string(60, '-') << endl;
+
+    cout << "Artista: ";
     if (artista) {
         cout << "Artista #" << artista->getCodigo() << " (" << artista->getPais() << ")";
     } else {
@@ -124,43 +128,27 @@ void simularReproduccion(udeatunes&  sistema) {
     }
     cout << endl;
 
-    cout << "Titulo de la cancion reproducida: " << cancion->getNombre() << endl;
+    cout << "Titulo: " << cancion->getNombre() << endl;
 
     cout << "Ruta al archivo de audio: ";
     if (sistema.getUsuarioActual()->esPremium()) {
-        cout << cancion->getRutaAudio320() << " (320 kbps)";
+        cout << cancion->getRutaAudio320() << " (320 kbps - Premium)";
     } else {
-        cout << cancion->getRutaAudio128() << " (128 kbps)";
+        cout << cancion->getRutaAudio128() << " (128 kbps - Estandar)";
     }
     cout << endl;
 
     cout << "Duracion: " << cancion->getDuracion() << " segundos" << endl;
-
     cout << string(60, '-') << endl;
-    cout << "Opciones de reproduccion:" << endl;
 
-    if (sistema.getUsuarioActual()->esPremium()) {
-        cout << "1.- Reproducir    2.- Detener    3.- Siguiente    4.- Anterior" << endl;
-        cout << "5.- " << (sistema.getModoRepetir() ? "Desactivar" : "Activar") << " repetir    6.- Volver al menu" << endl;
-    } else {
-        cout << "1.- Reproducir    2.- Detener    3.- Siguiente    4.- Volver al menu" << endl;
+    cout << "\n[Reproduciendo";
+    for (int i = 0; i < 3; i++) {
+        cout << "." << flush;
+        this_thread::sleep_for(chrono::seconds(1));
     }
+    cout << " Completado!]" << endl;
 
-    cout << "*Todas las opciones que apliquen" << endl;
     cout << string(60, '=') << endl;
-
-    cout << "\nReproduciendo por 3 segundos..." << endl;
-    this_thread::sleep_for(chrono::seconds(3));
-
-    if (sistema.getCancionesReproducidas() < 5) {
-        if (!sistema.siguienteCancion()) {
-            sistema.detenerReproduccion();
-            cout << "Reproduccion finalizada (limite alcanzado)." << endl;
-        }
-    } else {
-        sistema.detenerReproduccion();
-        cout << "Reproduccion finalizada (limite alcanzado)." << endl;
-    }
 }
 
 
@@ -170,76 +158,23 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
         return;
     }
 
-    int opcion;
-    while (sistema.estaReproduciendo()) {
+    const int K = 5;
+
+    while (sistema.estaReproduciendo() && sistema.getCancionesReproducidas() <= K) {
         simularReproduccion(sistema);
 
-        if (!sistema.estaReproduciendo()) break;
+        if (sistema.getCancionesReproducidas() >= K) {
+            sistema.detenerReproduccion();
+            cout << "\nReproduccion finalizada! Se alcanzo el limite de " << K << " canciones." << endl;
+            break;
+        }
 
-        mostrarMenuReproduccion(sistema);
-        cin >> opcion;
+        if (sistema.estaReproduciendo()) {
+            cout << "\nCambiando a la siguiente cancion automaticamente..." << endl;
 
-        if (sistema.getUsuarioActual()->esPremium()) {
-            switch (opcion) {
-            case 1:
-                cout << "Continuando reproduccion..." << endl;
-                break;
-
-            case 2:
+            if (!sistema.siguienteCancion()) {
                 sistema.detenerReproduccion();
-                cout << "Reproduccion detenida." << endl;
-                break;
-
-            case 3:
-                if (!sistema.siguienteCancion()) {
-                    sistema.detenerReproduccion();
-                    cout << "No hay mas canciones disponibles." << endl;
-                }
-                break;
-
-            case 4:
-                if (!sistema.cancionAnterior()) {
-                    cout << "No hay cancion anterior disponible." << endl;
-                }
-                break;
-
-            case 5:
-                sistema.alternarRepetir();
-                cout << "Modo repetir " << (sistema.getModoRepetir() ? "activado" : "desactivado") << "." << endl;
-                break;
-
-            case 6:
-                sistema.detenerReproduccion();
-                break;
-
-            default:
-                cout << "Opcion invalida." << endl;
-                break;
-            }
-        } else {
-            switch (opcion) {
-            case 1:
-                cout << "Continuando reproduccion..." << endl;
-                break;
-
-            case 2:
-                sistema.detenerReproduccion();
-                cout << "Reproduccion detenida." << endl;
-                break;
-
-            case 3:
-                if (!sistema.siguienteCancion()) {
-                    sistema.detenerReproduccion();
-                    cout << "No hay mas canciones disponibles." << endl;
-                }
-                break;
-
-            case 4:
-                sistema.detenerReproduccion();
-                break;
-
-            default:
-                cout << "Opcion invalida." << endl;
+                cout << "No hay mas canciones disponibles." << endl;
                 break;
             }
         }
@@ -293,7 +228,7 @@ void manejarEdicionFavoritos(udeatunes& sistema) {
         if (sistema.eliminarDeFavoritos(idCancion)) {
             cout << "Cancion eliminada de favoritos." << endl;
         } else {
-            cout << "Error: No se pudo eliminar la cancion." << endl;
+            cout << "Error: do eliminar la cancion." << endl;
         }
         break;
     }
@@ -508,4 +443,3 @@ int main() {
 
     return 0;
 }
-

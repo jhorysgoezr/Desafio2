@@ -32,4 +32,4 @@ public:
     }
 };
 
-#endif // ARTISTA_H
+#endif

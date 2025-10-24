@@ -31,4 +31,4 @@ public:
 
 };
 
-#endif // MENSAJEPUBLICITARIO_H
+#endif

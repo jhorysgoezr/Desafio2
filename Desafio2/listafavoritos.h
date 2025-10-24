@@ -32,4 +32,4 @@ public:
 
 };
 
-#endif // LISTAFAVORITOS_H
+#endif
