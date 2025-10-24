@@ -84,6 +84,12 @@ public:
 
     int calcularMemoria() const;
 
+    int getCantidadUsuarios() const { return usuarios.obtenerTamano(); }
+    int getCantidadArtistas() const { return artistas.obtenerTamano(); }
+    int getCantidadAlbumes() const { return albumes.obtenerTamano(); }
+    int getCantidadCanciones() const { return canciones.obtenerTamano(); }
+    int getCantidadMensajesPublicitarios() const { return mensajesPublicitarios.obtenerTamano(); }
+
 };
 
 #endif
