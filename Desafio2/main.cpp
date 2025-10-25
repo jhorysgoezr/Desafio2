@@ -50,12 +50,6 @@ void mostrarMenuPremium() {
     cout << "Seleccione una opcion: ";
 }
 
-
-void mostrarMenuReproduccion(udeatunes& sistema) {
-    cout << "\nSeleccione una opcion: ";
-}
-
-
 void mostrarMenuFavoritos() {
     cout << "\n=== Mi Lista de Favoritos ===" << endl;
     cout << "1. Editar mi lista de favoritos" << endl;
@@ -160,23 +154,99 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
 
     const int K = 5;
 
-    while (sistema.estaReproduciendo() && sistema.getCancionesReproducidas() <= K) {
+    while (sistema.estaReproduciendo() && sistema.getCancionesReproducidas() < K) {
         simularReproduccion(sistema);
 
-        if (sistema.getCancionesReproducidas() >= K) {
-            sistema.detenerReproduccion();
-            cout << "\nReproduccion finalizada! Se alcanzo el limite de " << K << " canciones." << endl;
-            break;
-        }
-
-        if (sistema.estaReproduciendo()) {
+        if (sistema.getCancionesReproducidas() < K) {
             cout << "\nCambiando a la siguiente cancion automaticamente..." << endl;
-
             if (!sistema.siguienteCancion()) {
                 sistema.detenerReproduccion();
                 cout << "No hay mas canciones disponibles." << endl;
-                break;
+                mostrarMetricas(sistema);
+                return;
             }
+        }
+    }
+
+    cout << "\n" << string(60, '=') << endl;
+    cout << "Se completaron las " << K << " canciones automaticas." << endl;
+    cout << "Ahora puede controlar la reproduccion manualmente." << endl;
+    cout << string(60, '=') << endl;
+
+    bool continuar = true;
+    while (continuar && sistema.estaReproduciendo()) {
+        cout << "\n=== Controles de Reproduccion ===" << endl;
+        cout << "1. Siguiente cancion" << endl;
+        cout << "2. Detener reproduccion" << endl;
+
+        if (sistema.getUsuarioActual()->esPremium()) {
+            cout << "3. Cancion anterior" << endl;
+            cout << "4. " << (sistema.getModoRepetir() ? "Desactivar" : "Activar") << " repetir cancion actual" << endl;
+            cout << "5. Reproducir cancion actual" << endl;
+        }
+
+        cout << "0. Salir al menu principal" << endl;
+        cout << "Seleccione una opcion: ";
+
+        int opcion;
+        cin >> opcion;
+
+        switch (opcion) {
+        case 1:
+            if (sistema.siguienteCancion()) {
+                simularReproduccion(sistema);
+            } else {
+                cout << "No hay mas canciones disponibles." << endl;
+                continuar = false;
+            }
+            break;
+
+        case 2:
+            sistema.detenerReproduccion();
+            cout << "Reproduccion detenida." << endl;
+            continuar = false;
+            break;
+
+        case 3:
+            if (sistema.getUsuarioActual()->esPremium()) {
+                if (sistema.cancionAnterior()) {
+                    simularReproduccion(sistema);
+                } else {
+                    cout << "No hay cancion anterior disponible." << endl;
+                }
+            } else {
+                cout << "Opcion no disponible para usuarios estandar." << endl;
+            }
+            break;
+
+        case 4:
+            if (sistema.getUsuarioActual()->esPremium()) {
+                sistema.alternarRepetir();
+                cout << "Modo repetir: " << (sistema.getModoRepetir() ? "ACTIVADO" : "DESACTIVADO") << endl;
+            } else {
+                cout << "Opcion no disponible para usuarios estandar." << endl;
+            }
+            break;
+
+        case 5:
+            if (sistema.getUsuarioActual()->esPremium()) {
+                if (sistema.getCancionActual()) {
+                    simularReproduccion(sistema);
+                } else {
+                    cout << "No hay cancion actual para reproducir." << endl;
+                }
+            } else {
+                cout << "Opcion no disponible para usuarios estandar." << endl;
+            }
+            break;
+
+        case 0:
+            continuar = false;
+            break;
+
+        default:
+            cout << "Opcion invalida." << endl;
+            break;
         }
     }
 

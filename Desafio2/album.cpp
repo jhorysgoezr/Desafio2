@@ -34,15 +34,6 @@ void album::agregarCancion(int idCancion)
     canciones.agregar(idCancion);
 }
 
-bool album::eliminarCacnion(int idCancion)
-{
-    return canciones.eliminar(idCancion);
-}
-
-bool album::tieneCancion(int idCancion) const
-{
-    return canciones.buscar(idCancion);
-}
 
 int album::getCantidadCanciones() const
 {

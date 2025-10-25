@@ -1,7 +1,6 @@
 #ifndef UDEATUNES_H
 #define UDEATUNES_H
 
-#include "usuario.h"
 #include <chrono>
 #include <random>
 #include <mensajepublicitario.h>
@@ -9,6 +8,7 @@
 #include <album.h>
 #include <artista.h>
 #include <estructuras.h>
+#include <usuario.h>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -27,7 +27,6 @@ private:
     Usuario* usuarioActual;
     bool reproduciendo;
     cancion* cancionActual;
-    Cola<int> historialReproduccion;
     Pila<int> pilaAnterior;
     bool modoRepetir;
     int cancionesReproducidas;

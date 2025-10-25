@@ -1,6 +1,5 @@
 #include "udeatunes.h"
 
-#include <MensajePublicitario.h>
 
 udeatunes::udeatunes():usuarioActual(nullptr), reproduciendo(false), cancionActual(nullptr),
     modoRepetir(false), cancionesReproducidas(0), limiteReproduccion(5),
@@ -152,10 +151,6 @@ bool udeatunes::iniciarReproduccionAleatoria()
         cancionActual->incrementarReproducciones();
         cancionesReproducidas++;
 
-        if (usuarioActual->esPremium()) {
-            historialReproduccion.encolar(cancionActual->getIdentificador());
-        }
-
         iteracionesTotales++;
         return true;
     }
@@ -174,8 +169,8 @@ bool udeatunes::siguienteCancion()
         return true;
     }
 
-    if (cancionesReproducidas >= limiteReproduccion) {
-        return false;
+    if (usuarioActual->esPremium() && cancionActual) {
+        pilaAnterior.apilar(cancionActual->getIdentificador());
     }
 
     uniform_int_distribution<> dis(0, canciones.obtenerTamano() - 1);
@@ -186,10 +181,6 @@ bool udeatunes::siguienteCancion()
         cancionActual->incrementarReproducciones();
         cancionesReproducidas++;
 
-        if (usuarioActual->esPremium()) {
-            historialReproduccion.encolar(cancionActual->getIdentificador());
-        }
-
         iteracionesTotales++;
         return true;
     }
@@ -198,18 +189,18 @@ bool udeatunes::siguienteCancion()
 
 bool udeatunes::cancionAnterior()
 {
-    if (!usuarioActual || !usuarioActual->esPremium() || historialReproduccion.estaVacia()) {
+    if (!usuarioActual || !usuarioActual->esPremium() || pilaAnterior.estaVacia()) {
         return false;
     }
 
-    int* ultimaCancion = historialReproduccion.obtenerFrente();
-    if (!ultimaCancion) return false;
+    int* idCancionAnterior = pilaAnterior.obtenerTope();
+    if (!idCancionAnterior) return false;
 
     for (int i = 0; i < canciones.obtenerTamano(); i++) {
         cancion* cancion = canciones.obtener(i);
-        if (cancion && cancion->getIdentificador() == *ultimaCancion) {
+        if (cancion && cancion->getIdentificador() == *idCancionAnterior) {
             cancionActual = cancion;
-            historialReproduccion.desencolar();
+            pilaAnterior.desapilar();
             iteracionesTotales++;
             return true;
         }
@@ -225,8 +216,8 @@ void udeatunes::detenerReproduccion()
     modoRepetir = false;
     cancionesReproducidas = 0;
 
-    while (!historialReproduccion.estaVacia()) {
-        historialReproduccion.desencolar();
+    while (!pilaAnterior.estaVacia()) {
+        pilaAnterior.desapilar();
     }
 }
 

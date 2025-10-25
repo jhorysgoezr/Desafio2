@@ -37,8 +37,6 @@ public:
 
     bool agregarGeneros(Genero g);
     void agregarCancion(int idCancion);
-    bool eliminarCacnion(int idCancion);
-    bool tieneCancion(int idCancion) const;
 
     int getCantidadCanciones() const;
     int getCancion(int indice) const;
