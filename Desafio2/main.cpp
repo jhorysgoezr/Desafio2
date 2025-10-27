@@ -296,55 +296,83 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
 // Favoritos (igual funcionalidad)
 // =============================================
 void manejarEdicionFavoritos(udeatunes& sistema) {
-    cout << "\n=== Editar Lista de Favoritos ===" << endl;
-    cout << "1. Agregar cancion" << endl;
-    cout << "2. Eliminar cancion" << endl;
-    cout << "3. Ver lista actual" << endl;
-    cout << "4. Volver" << endl;
-    cout << "Seleccione una opcion: ";
+    int opcion;
+    do {
+        cout << "\n=== Editar Lista de Favoritos ===" << endl;
+        cout << "1. Agregar cancion" << endl;
+        cout << "2. Eliminar cancion" << endl;
+        cout << "3. Ver lista actual" << endl;
+        cout << "4. Volver" << endl;
+        cout << "Seleccione una opcion: ";
 
-    int opcion; cin >> opcion;
-    switch (opcion) {
-    case 1: {
-        cout << "Ingrese el ID de la cancion a agregar: ";
-        int idCancion; cin >> idCancion;
-        cancion* c = sistema.buscarCancion(idCancion);
-        if (c) {
-            cout << "Cancion encontrada: " << c->getNombre() << endl;
-            cout << "¿Desea agregarla a favoritos? (1=Si, 0=No): ";
-            int confirmar; cin >> confirmar;
-            if (confirmar == 1) {
-                if (sistema.agregarAFavoritos(idCancion)) cout << "Cancion agregada a favoritos." << endl;
-                else cout << "Error: No se pudo agregar la cancion." << endl;
-            }
-        } else {
-            cout << "Cancion no encontrada." << endl;
-        }
-        break;
-    }
-    case 2: {
-        cout << "Ingrese el ID de la cancion a eliminar: ";
-        int idCancion; cin >> idCancion;
-        if (sistema.eliminarDeFavoritos(idCancion)) cout << "Cancion eliminada de favoritos." << endl;
-        else cout << "Error: No se pudo eliminar la cancion." << endl;
-        break;
-    }
-    case 3: {
-        listaFavoritos& favoritos = sistema.getUsuarioActual()->getListaFavoritos();
-        cout << "\nLista de Favoritos (" << favoritos.obtenerTamano() << " canciones):" << endl;
-        for (int i = 0; i < favoritos.obtenerTamano(); i++) {
-            int idCancion = favoritos.obtenerCancion(i);
+        cin >> opcion;
+        switch (opcion) {
+        case 1: {
+            cout << "Ingrese el ID de la cancion a agregar: ";
+            int idCancion; cin >> idCancion;
             cancion* c = sistema.buscarCancion(idCancion);
-            if (c) cout << (i + 1) << ". " << c->getNombre() << " (ID: " << idCancion << ")" << endl;
+            if (c) {
+                cout << "Cancion encontrada: " << c->getNombre() << endl;
+                cout << "¿Desea agregarla a favoritos? (1=Si, 0=No): ";
+                int confirmar; cin >> confirmar;
+                if (confirmar == 1) {
+                    if (sistema.agregarAFavoritos(idCancion)) cout << "Cancion agregada a favoritos." << endl;
+                    else cout << "Error: No se pudo agregar la cancion." << endl;
+                }
+            } else {
+                cout << "Cancion no encontrada." << endl;
+            }
+            break;
         }
-        break;
-    }
-    case 4:
-        return;
-    default:
-        cout << "Opcion invalida." << endl;
-        break;
-    }
+        case 2: {
+            cout << "Ingrese el ID de la cancion a eliminar: ";
+            int idCancion; cin >> idCancion;
+            if (sistema.eliminarDeFavoritos(idCancion)) cout << "Cancion eliminada de favoritos." << endl;
+            else cout << "Error: No se pudo eliminar la cancion." << endl;
+            break;
+        }
+        case 3: {
+            listaFavoritos& favoritos = sistema.getUsuarioActual()->getListaFavoritos();
+            cout << "\n+----------------------------------------------------------+" << endl;
+            cout << "|                MI LISTA DE FAVORITOS                     |" << endl;
+            cout << "+----------------------------------------------------------+" << endl;
+            cout << "| Total de canciones: " << favoritos.obtenerTamano() << "/10000" << endl;
+            cout << "+----------------------------------------------------------+" << endl;
+            
+            if (favoritos.estaVacia()) {
+                cout << "|                    Lista vacia                          |" << endl;
+                cout << "|         Agrega canciones para verlas aqui             |" << endl;
+            } else {
+                for (int i = 0; i < favoritos.obtenerTamano(); i++) {
+                    int idCancion = favoritos.obtenerCancion(i);
+                    cancion* c = sistema.buscarCancion(idCancion);
+                    if (c) {
+                        // Buscar información del álbum y artista
+                        album* a = sistema.buscarAlbum(c->getCodigoAlbum());
+                        artista* r = sistema.buscarArtista(c->getCodigoArtista());
+                        
+                        cout << "| " << (i + 1) << ". " << c->getNombre() << endl;
+                        cout << "|     ID: " << idCancion << " | Duracion: " << c->getDuracion() << "s" << endl;
+                        if (r) cout << "|     Artista: " << r->getCodigo() << " (" << r->getPais() << ")" << endl;
+                        if (a) cout << "|     Album: " << a->getNombre() << endl;
+                        cout << "|     Reproducciones: " << c->getReproducciones() << endl;
+                        cout << "+----------------------------------------------------------+" << endl;
+                    }
+                }
+            }
+            cout << "+----------------------------------------------------------+" << endl;
+            cout << "\nPresione Enter para continuar...";
+            cin.ignore();
+            cin.get();
+            break;
+        }
+        case 4:
+            return;
+        default:
+            cout << "Opcion invalida." << endl;
+            break;
+        }
+    } while (opcion != 4);
 }
 
 void manejarSeguirLista(udeatunes& sistema) {
@@ -396,9 +424,10 @@ void manejarMenuFavoritos(udeatunes& sistema) {
         case 4: return;
         default: cout << "Opcion invalida." << endl; break;
         }
-        mostrarMetricas(sistema);
+
     } while (opcion != 4);
 }
+
 
 void manejarMenuUsuario(udeatunes& sistema) {
     int opcion;
