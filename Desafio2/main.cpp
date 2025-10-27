@@ -77,16 +77,16 @@ void mostrarMenuPremium() {
     system("clear");
 #endif
     cout << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|          U d e A T u n e s               |" << endl;
-    cout << "|------------------------------------------|" << endl;
-    cout << "|            MENU USUARIO PREMIUM          |" << endl;
-    cout << "|                                          |" << endl;
-    cout << "|   1. Reproduccion aleatoria              |" << endl;
-    cout << "|   2. Mi lista de favoritos               |" << endl;
-    cout << "|   3. Cerrar sesion                       |" << endl;
-    cout << "|                                          |" << endl;
-    cout << "+------------------------------------------+" << endl;
+    cout << "+----------------------------------------------------------+" << endl;
+    cout << "|                    U d e A T u n e s                     |" << endl;
+    cout << "|----------------------------------------------------------|" << endl;
+    cout << "|                MENU USUARIO PREMIUM                      |" << endl;
+    cout << "|                                                          |" << endl;
+    cout << "|   1. Reproduccion aleatoria                             |" << endl;
+    cout << "|   2. Mi lista de favoritos                              |" << endl;
+    cout << "|   3. Cerrar sesion                                      |" << endl;
+    cout << "|                                                          |" << endl;
+    cout << "+----------------------------------------------------------+" << endl;
     cout << "Seleccione una opcion: ";
 }
 
@@ -97,30 +97,28 @@ void mostrarMenuFavoritos() {
     system("clear");
 #endif
     cout << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|          U d e A T u n e s               |" << endl;
-    cout << "|------------------------------------------|" << endl;
-    cout << "|           MI LISTA DE FAVORITOS          |" << endl;
-    cout << "|                                          |" << endl;
-    cout << "|   1. Editar mi lista de favoritos        |" << endl;
-    cout << "|   2. Seguir otra lista de favoritos      |" << endl;
-    cout << "|   3. Ejecutar mi lista de favoritos      |" << endl;
-    cout << "|   4. Volver al menu principal            |" << endl;
-    cout << "|                                          |" << endl;
-    cout << "+------------------------------------------+" << endl;
+    cout << "+----------------------------------------------------------+" << endl;
+    cout << "|                    U d e A T u n e s                     |" << endl;
+    cout << "|----------------------------------------------------------|" << endl;
+    cout << "|                MI LISTA DE FAVORITOS                     |" << endl;
+    cout << "|                                                          |" << endl;
+    cout << "|   1. Editar mi lista de favoritos                       |" << endl;
+    cout << "|   2. Seguir otra lista de favoritos                     |" << endl;
+    cout << "|   3. Ejecutar mi lista de favoritos                     |" << endl;
+    cout << "|   4. Volver al menu principal                           |" << endl;
+    cout << "|                                                          |" << endl;
+    cout << "+----------------------------------------------------------+" << endl;
     cout << "Seleccione una opcion: ";
 }
 
 void mostrarMetricas(udeatunes& sistema) {
     cout << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|         M E T R I C A S  D E  R E N D    |" << endl;
-    cout << "|------------------------------------------|" << endl;
-    cout << "|  Iteraciones realizadas: "
-         << sistema.getIteracionesTotales() << endl;
-    cout << "|  Memoria consumida: "
-         << sistema.calcularMemoria() << " bytes" << endl;
-    cout << "+------------------------------------------+" << endl;
+    cout << "+----------------------------------------------------------+" << endl;
+    cout << "|                M E T R I C A S  D E  R E N D I M I E N T O |" << endl;
+    cout << "|----------------------------------------------------------|" << endl;
+    cout << "|  Iteraciones realizadas: " << sistema.getIteracionesTotales() << endl;
+    cout << "|  Memoria consumida: " << sistema.calcularMemoria() << " bytes" << endl;
+    cout << "+----------------------------------------------------------+" << endl;
 }
 
 // =============================================
@@ -229,20 +227,25 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
 
     bool continuar = true;
     while (continuar && sistema.estaReproduciendo()) {
-        cout << "\n=== Controles de Reproduccion ===" << endl;
-        cout << "1. Siguiente cancion" << endl;
-        cout << "2. Detener reproduccion" << endl;
+        cout << "\n+----------------------------------------------------------+" << endl;
+        cout << "|                CONTROLES DE REPRODUCCION                 |" << endl;
+        cout << "|----------------------------------------------------------|" << endl;
+        cout << "|                                                          |" << endl;
+        cout << "|   1. Siguiente cancion                                   |" << endl;
+        cout << "|   2. Detener reproduccion                                |" << endl;
 
         // Aqui conservamos la funcionalidad del otro main: mostrar las
         // opciones premium solo cuando aplica
         if (sistema.getUsuarioActual()->esPremium()) {
-            cout << "3. Cancion anterior" << endl;
-            cout << "4. " << (sistema.getModoRepetir() ? "Desactivar" : "Activar")
+            cout << "|   3. Cancion anterior                                   |" << endl;
+            cout << "|   4. " << (sistema.getModoRepetir() ? "Desactivar" : "Activar")
                  << " repetir cancion actual" << endl;
-            cout << "5. Reproducir cancion actual" << endl;
+            cout << "|   5. Reproducir cancion actual                        |" << endl;
         }
 
-        cout << "0. Salir al menu principal" << endl;
+        cout << "|   0. Salir al menu principal                             |" << endl;
+        cout << "|                                                          |" << endl;
+        cout << "+----------------------------------------------------------+" << endl;
         cout << "Seleccione una opcion: ";
 
         int opcion; cin >> opcion;
@@ -298,11 +301,16 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
 void manejarEdicionFavoritos(udeatunes& sistema) {
     int opcion;
     do {
-        cout << "\n=== Editar Lista de Favoritos ===" << endl;
-        cout << "1. Agregar cancion" << endl;
-        cout << "2. Eliminar cancion" << endl;
-        cout << "3. Ver lista actual" << endl;
-        cout << "4. Volver" << endl;
+        cout << "\n+----------------------------------------------------------+" << endl;
+        cout << "|                EDITAR LISTA DE FAVORITOS                 |" << endl;
+        cout << "|----------------------------------------------------------|" << endl;
+        cout << "|                                                          |" << endl;
+        cout << "|   1. Agregar cancion                                     |" << endl;
+        cout << "|   2. Eliminar cancion                                    |" << endl;
+        cout << "|   3. Ver lista actual                                    |" << endl;
+        cout << "|   4. Volver                                              |" << endl;
+        cout << "|                                                          |" << endl;
+        cout << "+----------------------------------------------------------+" << endl;
         cout << "Seleccione una opcion: ";
 
         cin >> opcion;
