@@ -19,6 +19,10 @@ album::album(const album &otro):codigo(otro.codigo), nombre(otro.nombre),fechaLa
     }
 }
 
+album::~album()
+{
+}
+
 bool album::agregarGeneros(Genero g)
 {
     if(cantidadGeneros < 4){

@@ -5,6 +5,10 @@ udeatunes::udeatunes():usuarioActual(nullptr), reproduciendo(false), cancionActu
     modoRepetir(false), cancionesReproducidas(0), limiteReproduccion(5),
     iteracionesTotales(0), gen(rd()) {}
 
+udeatunes::~udeatunes()
+{
+}
+
 bool udeatunes::cargarUsuarios(const string &archivo)
 {
     ifstream file(archivo);

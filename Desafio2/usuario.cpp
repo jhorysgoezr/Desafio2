@@ -16,6 +16,10 @@ Usuario::Usuario(const Usuario &otro): nickname(otro.nickname), tipoMembresia(ot
 
 }
 
+Usuario::~Usuario()
+{
+}
+
 bool Usuario::esPremium() const
 {
     return tipoMembresia == PREMIUM;

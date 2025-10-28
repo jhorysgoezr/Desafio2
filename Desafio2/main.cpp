@@ -6,9 +6,6 @@
 
 using namespace std;
 
-// =============================================
-// Utilidades de carga (tomado de ambos mains)
-// =============================================
 bool cargarArchivo(udeatunes& sistema, const string& nombreArchivo,
                    bool (udeatunes::*metodoCarga)(const string&)) {
     string rutas[] = {
@@ -29,9 +26,6 @@ bool cargarArchivo(udeatunes& sistema, const string& nombreArchivo,
     return false;
 }
 
-// =============================================
-// MENUS (estilo visual de main(5))
-// =============================================
 void mostrarMenuPrincipal() {
 #ifdef _WIN32
     system("cls");
@@ -82,9 +76,9 @@ void mostrarMenuPremium() {
     cout << "|----------------------------------------------------------|" << endl;
     cout << "|                MENU USUARIO PREMIUM                      |" << endl;
     cout << "|                                                          |" << endl;
-    cout << "|   1. Reproduccion aleatoria                             |" << endl;
-    cout << "|   2. Mi lista de favoritos                              |" << endl;
-    cout << "|   3. Cerrar sesion                                      |" << endl;
+    cout << "|   1. Reproduccion aleatoria                              |" << endl;
+    cout << "|   2. Mi lista de favoritos                               |" << endl;
+    cout << "|   3. Cerrar sesion                                       |" << endl;
     cout << "|                                                          |" << endl;
     cout << "+----------------------------------------------------------+" << endl;
     cout << "Seleccione una opcion: ";
@@ -102,10 +96,10 @@ void mostrarMenuFavoritos() {
     cout << "|----------------------------------------------------------|" << endl;
     cout << "|                MI LISTA DE FAVORITOS                     |" << endl;
     cout << "|                                                          |" << endl;
-    cout << "|   1. Editar mi lista de favoritos                       |" << endl;
-    cout << "|   2. Seguir otra lista de favoritos                     |" << endl;
-    cout << "|   3. Ejecutar mi lista de favoritos                     |" << endl;
-    cout << "|   4. Volver al menu principal                           |" << endl;
+    cout << "|   1. Editar mi lista de favoritos                        |" << endl;
+    cout << "|   2. Seguir otra lista de favoritos                      |" << endl;
+    cout << "|   3. Ejecutar mi lista de favoritos                      |" << endl;
+    cout << "|   4. Volver al menu principal                            |" << endl;
     cout << "|                                                          |" << endl;
     cout << "+----------------------------------------------------------+" << endl;
     cout << "Seleccione una opcion: ";
@@ -121,9 +115,6 @@ void mostrarMetricas(udeatunes& sistema) {
     cout << "+----------------------------------------------------------+" << endl;
 }
 
-// =============================================
-// Player (formato visual de main(5) + misma logica)
-// =============================================
 void simularReproduccion(udeatunes& sistema) {
     if (!sistema.estaReproduciendo()) return;
 
@@ -138,7 +129,6 @@ void simularReproduccion(udeatunes& sistema) {
     cout << "|                   U d e A T u n e s  P l a y e r         |" << endl;
     cout << "+----------------------------------------------------------+" << endl;
 
-    // Publicidad para estandar cada 2 canciones
     if (sistema.getUsuarioActual()->esEstandar() &&
         sistema.getCancionesReproducidas() % 2 == 0) {
         MensajePublicitario* mensaje = sistema.obtenerMensajePublicitario();
@@ -195,9 +185,6 @@ void simularReproduccion(udeatunes& sistema) {
     cout << "+----------------------------------------------------------+" << endl;
 }
 
-// =============================================
-// Reproduccion aleatoria (UI + opciones premium visibles)
-// =============================================
 void manejarReproduccionAleatoria(udeatunes& sistema) {
     if (!sistema.iniciarReproduccionAleatoria()) {
         cout << "Error: No se pudo iniciar la reproduccion." << endl;
@@ -234,13 +221,11 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
         cout << "|   1. Siguiente cancion                                   |" << endl;
         cout << "|   2. Detener reproduccion                                |" << endl;
 
-        // Aqui conservamos la funcionalidad del otro main: mostrar las
-        // opciones premium solo cuando aplica
         if (sistema.getUsuarioActual()->esPremium()) {
-            cout << "|   3. Cancion anterior                                   |" << endl;
+            cout << "|   3. Cancion anterior                                    |" << endl;
             cout << "|   4. " << (sistema.getModoRepetir() ? "Desactivar" : "Activar")
                  << " repetir cancion actual" << endl;
-            cout << "|   5. Reproducir cancion actual                        |" << endl;
+            cout << "|   5. Reproducir cancion actual                         |" << endl;
         }
 
         cout << "|   0. Salir al menu principal                             |" << endl;
@@ -295,9 +280,6 @@ void manejarReproduccionAleatoria(udeatunes& sistema) {
     mostrarMetricas(sistema);
 }
 
-// =============================================
-// Favoritos (igual funcionalidad)
-// =============================================
 void manejarEdicionFavoritos(udeatunes& sistema) {
     int opcion;
     do {
@@ -355,7 +337,6 @@ void manejarEdicionFavoritos(udeatunes& sistema) {
                     int idCancion = favoritos.obtenerCancion(i);
                     cancion* c = sistema.buscarCancion(idCancion);
                     if (c) {
-                        // Buscar información del álbum y artista
                         album* a = sistema.buscarAlbum(c->getCodigoAlbum());
                         artista* r = sistema.buscarArtista(c->getCodigoArtista());
                         

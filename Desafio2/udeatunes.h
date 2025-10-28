@@ -38,6 +38,7 @@ private:
     mt19937 gen;
 public:
     udeatunes();
+    ~udeatunes();
 
     bool cargarUsuarios(const string& archivo);
     bool cargarArtistas(const string& archivo);

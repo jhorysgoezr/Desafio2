@@ -18,6 +18,7 @@ public:
     Usuario();
     Usuario(const string& nick, TipoMembresia tipo, const string& ciu, string &pa, const string& fecha );
     Usuario(const Usuario& otro);
+    ~Usuario();
 
     string getNickname() const {return nickname;}
     TipoMembresia getTipoMembresia() const {return tipoMembresia;}

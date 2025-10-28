@@ -18,6 +18,7 @@ public:
     album();
     album(int c, const string& n, const string& f, int d, const string& p);
     album(const album& otro);
+    ~album();
 
     int getCodigo() const {return codigo;}
     string getNombre() const {return nombre;}
